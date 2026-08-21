@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import Form from "./components/form/form";
@@ -6,6 +7,10 @@ import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
 // console.log(socket);
 
+=======
+import Login from "./pages/login";
+import Room from "./pages/room";
+>>>>>>> 02f8be5 (ref styles)
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -43,9 +48,8 @@ function App() {
 
   return (
     <>
-      <div className="w-[100%] h-[100vh] flex items-center justify-center">
-        <Form />
-      </div>
+      <Login />
+      <Room />
     </>
   )
 }
