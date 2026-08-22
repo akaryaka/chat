@@ -1,10 +1,11 @@
 import Form from "../components/form/form"
+import type { Props } from "./login.props"
 
-const Login = () => {
+const Login = ({click}: Props) => {
   return (
     <>
       <div className="w-[100%] h-[100vh] flex items-center justify-center">
-        <Form />
+        <Form click={click}/>
       </div>
     </>
   )

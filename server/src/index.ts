@@ -28,8 +28,9 @@ const io = new Server(httpServer, {
     origin: "http://localhost:5173"
   }
 });
+
 io.on("connection", (socket) => {
-  console.log(socket);
+  console.log('user connected', socket.id);
 })
 
 httpServer.listen(port)
@@ -48,7 +49,6 @@ app.get('/', (req: Request, res: Response) => {
   res.send('<p>server working</p>');
   console.log('path: /');
 })
-
 
 app.listen(port, () => {
   console.log(`listen port ${port}`);
