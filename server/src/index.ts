@@ -6,22 +6,9 @@ import { createServer } from 'http';
 const port = 3000;
 const app = express();
 const httpServer = createServer(app);
-
-// const corsOptions = {
-//   origin: 'http://localhost:5173/', // замените на ваш адрес фронтенда
-//   credentials: true, // если передаете куки или авторизационные заголовки
-// };
-
+const rooms = new Map;
 
 app.use(cors());
-
-// const serverHttp = http.createServer(app);
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: "http://localhost:5173/",
-//     // methods: ["GET", "POST"]
-//   }
-// })
 
 const io = new Server(httpServer, {
   cors: {
@@ -29,25 +16,39 @@ const io = new Server(httpServer, {
   }
 });
 
+app.use(express.json())
+
 io.on("connection", (socket) => {
   console.log('user connected', socket.id);
 })
 
 httpServer.listen(port)
 
-// const rooms: Map<string, string> = new Map();
-
-// io.listen(port);
-// app.use(express.json());
-
-// app.get('/rooms', (req, res) => {
-//   rooms.set('hello', '');
-//   res.json(rooms);
-// })
-
 app.get('/', (req: Request, res: Response) => {
   res.send('<p>server working</p>');
   console.log('path: /');
+})
+
+app.get('/rooms', (req: Request, res: Response) => {
+  res.send(rooms);
+})
+
+// использование коллеций позволяет оптимизировать, сократить код
+app.post('/rooms', (req: Request, res: Response) => {
+  const { roomId, userName } = req.body;
+  if(!rooms.has(roomId)) {
+    rooms.set(
+      roomId, 
+      new Map([
+        ['users', new Map()],
+        ['messages', []],
+      ]
+    ));
+  }
+  console.log(rooms);
+  
+  res.json(...rooms.keys())
+  // console.log(roomId, userName);
 })
 
 app.listen(port, () => {
